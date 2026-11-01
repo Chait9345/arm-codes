@@ -1,56 +1,37 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to generate duty cycle using PWM interrupt. This program generates 1 msec square wave. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 C Programming – II</div><h1>Program to generate duty cycle using PWM interrupt. This program generates 1 msec square wave.</h1><p>Source manual page 49</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-2. C-program to display up count on LEDs using Timer0 interrupt
-Ol #include &lt;lpc214x.h&gt;
-02 unsigned long int c=Oxff;
-03 _ irq void TO ISR (void)
-04 ¢ c-&quot;1;
-05 IOOPIN = c&lt;&lt;i1é6; /* up count*/
-06 TOIR = ( TOIR | (0x01) );
-07 ViCcVectAddr = 0x00;
-08 }
-09 int main (void)
-10 ¢
-11 + VPBDIV = 2; /* For Pclk = 30MHz */
-12 IOODIR = ( IOODIR | (OXOOff0000) )+: /* pl.25 as output pin for LED */
-13 IOOPIN = IOOPIN | OXOOff0000; /* Writing 1 to LED pin P1.25 */
-14 VICVectAddrO = (unsigned) TO_ISR; /* TO ISR Address */
-15 VICVectCntlO = 0x00000024; /* Enable TO IRQ slot */
-16 VICIntEnable = 0x00000010; /* Enable TO interrupt */
-17 VICIntSelect = 0x00000000; /* TO configured as IRQ */
-18 TOTCR = 0x02; /* Reset TC and PR */
-18 TOCTCR = 0x00; /* Timer mode, increment on every rising edge */
-20 TOPR = OxiD; /* Load Pre-Scalar counter with 29, timer to count every lusec */
-21 TOMRO = 1000000; /* Load timer counter for isec delay */
-22 ‘TOMCR = 0x0003; /* Interrupt generate on match and reset timer */
-23 %QTOTCR = 0x01; /* Enable timer */
-24 while (1);
-a}
-3.Program to generate duty cycle using PWM interrupt. This program generates 1 msec
-square wave.
-QO] #include &lt;LPC21xx.h&gt;
-02 __irq void PWM_ISR (void)
-03 { PWMIR = 0x100; /* Clear PWM4 interrupt */
-04 ViCcVectAddr = 0x00000000;
-05 }
-06 int main (void)
-o7 i
-08 VPBDIV = 0x00000002;
-09 PINSELO = 0x00020000 ;// configure p0o.8
-10 VicVectAddrO = (unsigned) PWM_ISR; /+ PWM ISR Address */
-1 VicvectCntloO = (0x00000020 | 8); /* Enable PWM IRQ slot */
-12 ViICIntEnable = VICIntEnable | 90x00000100; /* Enable PWM interrupt */
-13 // VICIntSelect = VICIntSelect | 0x00000000; /* PWM configured as IRQ */
-14 // For PWM4 double edge
-15 PWMICR = 0x02; /* Reset and disable counter for PAM */
-16 PWMPR = 0x1D; /* Prescale value for lusec, Pclk=30MHz*/
-17 /* Duty Cycle=(PWMMR4/PHWMMRO) *100*/
-18 PWMMRO = 1000; /* Time period of PYM vave, imsec */
-19 PWMMR4 = 100; /* Value for duty cycle (10%) */
-20 PWMMCR = 0x1003;/* Reset and interrupt on MRO match, interrupt on MR4 match */
-21 PWMLER = 0x0D; /+* Latch enable for PWM3, PWM2 and PWMO */
-22 PWMPCR = 0x1010;/* Enable PWM4 double edge controlled PWM on PWM4 */
-23 PWMICR = 0x09; /* Enable PWM and counter */
-24 while (1);
-a }
-49
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-49.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C-program to display up count on LEDs using Timer0 interrupt | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 37 · Experiment 10</div>
+<h1>C-program to display up count on LEDs using Timer0 interrupt</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>#include &lt;lpc214x.h&gt;
+unsigned long int c=0xff;
+__irq void T0_ISR (void)
+{   c-=1;
+    IO0PIN =  c&lt;&lt;16;    /* up count*/
+    T0IR = ( T0IR | (0x01) );
+    VICVectAddr = 0x00;
+}
+int main (void)
+{
+VPBDIV = 2; /* For Pclk = 30MHz */
+IO0DIR = ( IO0DIR | (0X00ff0000) ); /* p1.25 as output pin for LED */
+IO0PIN = IO0PIN | 0X00ff0000; /* Writing 1 to LED pin P1.25 */
+VICVectAddr0 = (unsigned) T0_ISR; /* T0 ISR Address */
+VICVectCntl0 = 0x00000024; /* Enable T0 IRQ slot */
+VICIntEnable = 0x00000010; /* Enable T0 interrupt */
+VICIntSelect = 0x00000000; /* T0 configured as IRQ */
+T0TCR = 0x02; /* Reset TC and PR */
+T0CTCR = 0x00; /* Timer mode, increment on every rising edge */
+T0PR = 0x1D; /* Load Pre-Scalar counter with 29, timer to count every 1usec */
+T0MR0 = 1000000; /* Load timer counter for 1sec delay */
+T0MCR = 0x0003; /* Interrupt generate on match and reset timer */
+T0TCR = 0x01; /* Enable timer */
+while (1);
+}</code></pre></div>
+
+<p class="footer">Experiment 10: ARM 7 C PROGRAMMING - II. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

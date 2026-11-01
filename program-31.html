@@ -1,45 +1,65 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to send a character received | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Interrupts</div><h1>Program to send a character received</h1><p>Source manual page 42</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-b. Write a program to display any 4 waveforms one after the other every 5 seconds
-3.Program to send a character received
-After downloading is completed, Open the hyper terminal (Flash Magic-&gt;Tools-&gt;
-TERMINAL), set the Com1 port, baud rate as programmed and Newlines: CR. Push both pins
-of dip-switch SW11 to OFF position. Open the jumper JP7. Press RESET switch (SW9). Pres
-any key on the PC keyboard the same will be displayed on the monitor.
-01 INCLUDE VICVPB.S
-02 AREA SERIAL, CODE,READONLY
-03 §EXPORT main ;refer the line no 416 of startup.s file
-04 _ main
-05 ENTRY
-06 LDR R1,=VPBDIV ; PCLK = 30MHzS
-07 LDR RO,=2;
-08 STR RO, [R1]
-os LDR R1,=PINSELO ; P0.0 and PO0.1 configured as
-10 LDR RO,=0X05 7 TXO and RXO respectively
-11 STR RO, [R1]
-12 LDR R1,=UOLCR ; DLAB=1 and @ bit Caharacter length
-13 LDR RO,=0X83; and one stop bit
-14 STR RO, [R1]
-15 LDR R1,=U0DLL ; for generating baud of 9600
-16 LDR RO,=195;
-7 STR RO, [R1]
-18 LDR R1,=UODLM ;
-19 LDR RO,=0;
-20 STR RO, [R1]
-21 LDR R1i,=UOLCR
-22 LDR RO,=0X03;
-23 STR RO, [R1] ;DLAB =0
-24 LDR R1i,=UOIER
-25 LDR RO,=OX03; Enable THRE(biti) and RBR(bitO) interrupt
-26 STR RO, [R1]
-2? LDR R1,=VICVectCntlO; slotO with highest priority
-28 LDR RO,=0x26; UARTO(sloté) and 2 for vectored IRQ is enabled
-23 STR RO, [R1]
-30 LDR R1,=VICVectAddro
-pe] LDR RO,=IRQ_UARTO; ISR address to be stored in VICVectAddrd
-32 STR RO, [R1]
-33 LDR R1,=VICIntEnable
-34 LDR RO,=0x40; enable UARTO interrupt
-35 STR RO, [R1]
-3065 BS
-42
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-42.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program for Timer0 Interrupt to display every second count on LEDs | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 31 · Experiment 8</div>
+<h1>Program for Timer0 Interrupt to display every second count on LEDs</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code> INCLUDE VICVPB.S
+ AREA T0_INT, CODE,READONLY
+ EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+    LDR R1,=VPBDIV; For Pclk = 30MHz
+    LDR R0,=0X02
+    STR R0,[R1]
+;   LDR R1,=MEMMAP; User Flash Mode. Interrupt vectors are
+;   LDR R0,=0X01  ;not re-mapped and reside in Flash.
+;   STR R0,[R1]
+    LDR R1,=IO0DIR    ;
+    LDR R0,=0x00FF0000;Configure P0.16-23 and P0.28,29 as output for seven segment
+    STR R0,[R1]
+    STR R0,[R1]
+    LDR R1,=VICVectCntl0; slot0 with highest priority
+    LDR R0,=0x24; T0 number is 4 and 2  for vectored IRQ slot is enabled
+    STR R0,[R1]
+    LDR R1,=VICVectAddr0
+    LDR R0,=IRQ_TIM0; ISR address for Timer0 to be stored in VICVectAddr0
+    STR R0,[R1]
+    LDR R1,=VICIntEnable
+    LDR R0,=0x10; enable Timer0
+    STR R0,[R1]
+    LDR R1,=T0PR;LOAD 29 SO THAT 30MHz/30= 1 microseconds
+    LDR R0,=29;
+    STR R0,[R1]
+    LDR R1,=T0TCR
+    LDR R0,=1;  Enable timer
+    STR R0,[R1]
+    LDR R1,=T0MR0;
+    LDR R0,=1000000; Load timer match register0 to generate 1 second
+    STR R0,[R1]
+    LDR R1,=T0MCR;
+    LDR R0,=3;  To generate interrupt on match Interrupt on MR0
+    STR R0,[R1] ; and Reset on MR0: the TC will be reset if MR0 matches it.
+    LDR R2,=0XFF; initial count 0
+S   B S
+IRQ_TIM0
+    STMDB R13!,{R0-R1}
+    LDR R1,=T0IR;
+    LDR R0,=1
+    STR R0,[R1]
+    LDR R1,=VICVectAddr
+    LDR R0,=0
+    STR R0,[R1]
+    LDR R1,=IO0PIN
+    SUB R2,R2,#1
+    MOV R0, R2,LSL#16
+    STR R0,[R1]
+    LDMIA R13!,{R0-R1}
+    subs pc,r14,#4 ;Adjust the PC to jump back to where it was interrupted
+    END</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-39.png" alt="Original manual page 39"><figcaption>Original manual page 39</figcaption></figure></div></details>
+<p class="footer">Experiment 8: ASSEMBLY LANGUAGE PROGRAMMING FOR ARM 7 INTERRUPTS. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

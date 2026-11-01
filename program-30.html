@@ -1,59 +1,59 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program for Timer0 Interrupt to display every second count on LEDs. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Interrupts</div><h1>Program for Timer0 Interrupt to display every second count on LEDs.</h1><p>Source manual page 41</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-2. Program for Timer0 Interrupt to display every second count on LEDs.
-01 INCLUDE VICVPB.S
-02 AREA TO_INT, CODE, READONLY
-03. j|EXPORT main ;refer the line no 416 of startup.s file
-04 — main
-05 ENTRY
-06 LDR R1,=VPBDIV; For Pclk = 30MHz
-07 LDR RO,=0X02
-08 STR RO, [R1]
-og ; LDR R1,=MEMMAP; User Flash Mode. Interrupt vectors are
-10 =; LDR RO,=OX01 ;not re-mapped and reside in Flash.
-11 ; STR RO,[Ri]
-12 LDR Ri, =IOODIR :
-13 LDR RO,=Ox00FFO000 ;Configure P0.16-23 and P0.28,29 as output for seven segment
-14 STR RO, [Ri]
-15 STR RO, [R1]
-16 LDR R1,=VICVectCntlO; slotO with highest priority
-17 LDR RO,=0x24; TO number is ¢ and 2 for vectored IRQ slot is enabled
-18 STR RO, [R1]
-19 LDR R1,=ViICVectAddro
-20 LDR RO,=IRQ_ TIMO; ISR address for Timer0 to be stored in VICVectAddr0d
-ya STR RO, [R1]
-22 LDR R1,=VICIntEnable
-23 LDR RO,=0x10; enable Timerd
-24 STR RO, [R1]
-ys) LDR R1,=TOPR;LOAD 29 SO THAT 30MHz/30= 1 microseconds
-26 LDR RO,=29;
-27 STR RO, [R1]
-28 LDR R1,=TOTCR
-29 LDR RO,=1; Enable timer
-30 STR RO, [R1]
-31 LDR R1,=TOMRO;
-32 LDR RO,=1000000; Load timer match register0 to generate 1 second
-3 STR RO, [R1]
-34 LDR R1i,=TOMCR ;
-35 LDR RO,=3; To generate interrupt on match Interrupt on MRO
-3 STR RO, [R1) ; and Reset on MRO: the TC will be reset if MRO matches it.
-37 LDR R2,=OXFF; initial count 0
-33°C BS
-39 IRQ _TIMO
-40 STMDB R13!, {RO-R1}
-41 LDR R1,=TOIR;
-42 LDR RO,=1
-43 STR RO, (R1]
-44 LDR R1,=ViICVectAddr
-45 LDR RO,=0
-46 STR RO, [R1]
-47 LDR R1,=IOOPIN
-48 SUB R2,R2, #1
-49 MOV RO, R2,LSL#16
-50 STR RO, [R1]
-51 LDMIA R13!, {RO-R1i}
-52 subs pce,ri4,#4 ;Adjust the PC to jump back to where it was interrupted
-53 END
-Exercise:
-a. Write a program to display every second count in decimal on seven segment display
-41
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-41.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to understand External Hardware Interrupt1 (EINT1). Short Jumper JP12. After programming press the switch, SW12. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 30 · Experiment 8</div>
+<h1>Program to understand External Hardware Interrupt1 (EINT1). Short Jumper JP12. After programming press the switch, SW12.</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code> INCLUDE VICVPB.S
+ AREA INTRUPT, CODE,READONLY
+ EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+;   LDR R1,=MEMMAP; User Flash Mode. Interrupt vectors are
+;   LDR R0,=0X01  ;not re-mapped and reside in Flash.
+;   STR R0,[R1]
+    LDR R1,=IO1DIR    ; to configure P1.25 as output
+    LDR R0,=0X02000000
+    STR R0,[R1]
+    LDR R1,=PINSEL0
+    LDR R0,=0XC0; TO CONFIGURE P0.3 AS EINT1
+    STR R0,[R1]
+    LDR R1,=EXTMODE
+    LDR R0,=0X02; TO SELECT EINT1 AS EDGE TRIGGERED(1 FOR EDGE, 0 FOR LEVEL)
+    STR R0,[R1]
+    LDR R1,=EXTPOLAR
+    LDR R0,=0X0; TO SELECT EINT1 AS negative EDGE TRIGGERED(0 for negative, 1 for positive)
+    STR R0,[R1]
+    LDR R1,=VICVectCntl0; slot0 with highest priority
+    LDR R0,=0x2F; EINT1 number is 15 and 2  for vectored IRQ slot is enabled
+    STR R0,[R1]
+    LDR R1,=VICVectAddr0
+    LDR R0,=IRQ_EInt1; ISR address to be stored in VICVectAddr0
+    STR R0,[R1]
+    LDR R1,=VICIntEnable
+    LDR R0,=0x00008000; enable EINT1
+    STR R0,[R1]
+S   B S
+IRQ_EInt1
+    STMDB R13!,{R0-R1}
+    LDR R1,=EXTINT
+    LDR R0,=0x2
+    STR R0,[R1]
+    ldr r2,=0x40000000; Starting address of data memory
+    ldr r0,[r2]
+    LDR R1,=IO1PIN
+    EOR R0,R0,#0X02000000
+    STR R0,[R1]
+    str r0,[r2]
+    LDR R1,=VICVectAddr
+    LDR R0,=0
+    STR R0,[R1]
+    LDMIA R13!,{R0-R1}
+    subs pc,r14,#4 ; Adjust the PC to jump back to where it was interrupted
+    END</code></pre></div>
+
+<p class="footer">Experiment 8: ASSEMBLY LANGUAGE PROGRAMMING FOR ARM 7 INTERRUPTS. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

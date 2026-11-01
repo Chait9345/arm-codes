@@ -1,36 +1,37 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program with different arithmetic instructions. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program with different arithmetic instructions.</h1><p>Source manual page 20</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 3
-INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE
-PROGRAMMING (DATA PROCESSING-II)
-Aim: To understand data processing (Arithmetic operations)
-1.Program with different arithmetic instructions.
-01 AREA PROGRAM1, CODE, READONLY;
-02 ENTRY
-03 LDR R1,NUM1
-04 LDR R2,NUM2
-05 LDR RO,=RES
-06 ADD R3,R1,R2 ;R3=R1+R2
-07 STR R3, [RO], #4
-08 ADC R3,R1,R2 #R3=R1+R2+C
-09 STR R3, [RO], #4
-10 SUB R3,R1,R2 -R3=Ri-R2
-nN STR R3, [RO], #4
-12 SBC R3,R1,R2 7R3=R1-R2+C
-13 STR R3, [RO], #4
-14 RSB R3,R1,R2 ;R3=R2-R1
-15 STR R3, [RO], #4
-16 RSC R3,R1,R2 9 ;R3=R2-R1+C-1
-7 STR R3, [RO], #4
-18 BIC R3,R1,R2 ;R3=R1 AND (~R2)
-19 STR R3, [RO]
-20 Ss BS
-21 NUM1 DCD OXF7654321
-22 NUM2 DCD OXF2345678
-23 AREA MEMORY, DATA, READWRITE ;?
-24 RES DCD 0 ; starting address is 0x40000000
-25 END
-Note: Include S at the end in ADD, ADC, SUB, SBC,RSB, RSC and BIC of the above program
-and observe the CPSR register and data memory.
-OBSERVATIONS
-20
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-20.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program with different arithmetic instructions | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 13 · Experiment 3</div>
+<h1>Program with different arithmetic instructions</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>    AREA PROGRAM1, CODE, READONLY;
+ENTRY
+        LDR R1,NUM1
+        LDR R2,NUM2
+        LDR R0,=RES
+        ADD R3,R1,R2      ;R3=R1+R2
+        STR R3,[R0],#4
+        ADC R3,R1,R2      ;R3=R1+R2+C
+        STR R3,[R0],#4
+        SUB R3,R1,R2      ;R3=R1-R2
+        STR R3,[R0],#4
+        SBC R3,R1,R2      ;R3=R1-R2+C
+        STR R3,[R0],#4
+        RSB R3,R1,R2      ;R3=R2-R1
+        STR R3,[R0],#4
+        RSC R3,R1,R2      ;R3=R2-R1+C-1
+        STR R3,[R0],#4
+        BIC R3,R1,R2      ;R3=R1 AND (~R2)
+        STR R3,[R0]
+S       B S
+NUM1 DCD 0XF7654321
+NUM2 DCD 0XF2345678
+        AREA   MEMORY, DATA, READWRITE ;?
+RES DCD 0         ; starting address is 0x40000000
+        END</code></pre></div>
+
+<p class="footer">Experiment 3: INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE PROGRAMMING (DATA PROCESSING-II). Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

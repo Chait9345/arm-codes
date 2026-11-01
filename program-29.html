@@ -1,55 +1,94 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to understand External Hardware Interrupt1 (EINT1). Short Jumper JP12. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Interrupts</div><h1>Program to understand External Hardware Interrupt1 (EINT1). Short Jumper JP12.</h1><p>Source manual page 39</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 8
-ASSEMBLY LANGUAGE PROGRAMMING FOR ARM 7 INTERRUPTS
-Aim: To program arm 7 interrupts like EINT0, EINT1, Timer? and UARTO
-1. Program to understand External Hardware Interrupt1 (EINT1). Short Jumper JP12.
-After programming press the switch, SW12.
-i) ] INCLUDE VICVPB.S
-02 AREA INTRUPT, CODE, READONLY
-lie} EXPORT main ;refer the line no 416 of startup.s file
-04 _ main
-05 ENTRY
-Oo ; LDR R1,=MEMMAP; User Flash Mode. Interrupt vectors are
-OF ;: LDR RO,=O0OX01 ;not re-mapped and reside in Flash.
-we -; STR RO,[Ri]
-os LDR R1,=IO1DIR ¢ to configure P1.25 as output
-10 LDR RO, =0X02000000
-un STR RO, [R1]
-12 LDR R1,=PINSELO
-13 LDR RO,=OXCO; TO CONFIGURE P0.3 AS EINTIi
-14 STR RO, (Ri)
-15 LDR R1,=EXTMODE
-16 LDR RO,=0X02; TO SELECT EINTi AS EDGE TRIGGERED(i FOR EDGE, 0 FOR LEVEL)
-7 STR RO, [R1]
-18 LDR R1i,=EXTPOLAR
-19 LDR RO,=OX0; TO SELECT EINT1 AS negative EDGE TRIGGERED(O for negative, 1 for positive)
-20 STR RO, [R1]
-21 LDR R1,=VICVectCntl0; slotO with highest priority
-22 LDR RO,=Ox2F; EINTi number is 15 and 2 for vectored IRO slot is enabled
-ys} STR RO, [Ri]
-24 LDR R1,=VICVectAddroO
-3 LDR RO,=IRQ_EInti; ISR address to be stored in VICVectAddro
-v2) STR RO, [R1]
-2 LDR R1i,=VICIntEnable
-28 LDR RO,=0x00008000; enable EINT1
-2 STR RO, [R1]
-3 6S BS
-31 «IRQ _EInti
-32 STMDB R13!, {RO-R1}
-33 LDR R1,=EXTINT
-| LDR RO,=0x2
-Ss STR RO, (Ri)
-36 ldr r2,=0x40000000; Starting address of data memory
-F ldr r0, [r2]
-ie: 2] LDR R1,=I01PIN
-3 EOR RO,RO, #0X02000000
-40 STR RO, [Ri]
-41 str ro, [r2]
-42 LDR R1,=ViICVectAddr
-43 LDR RO,=0
-44 STR RO, [R1]
-45 LDMIA R13!, {RO-R1}
-46 subs pe,ri4,#4 ; Adjust the PC to jump back to where it vas interrupted
-47 END
-39
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-39.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to interface internal ADC. Displays output on seven segment | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 29 · Experiment 7</div>
+<h1>Program to interface internal ADC. Displays output on seven segment</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code> include VICVPB.s
+ AREA ADC, CODE,READONLY
+    EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+        LDR R1,=VPBDIV; For Pclk = 30MHz
+        LDR R0,=0X02
+        STR R0,[R1]
+        LDR r1,=PINSEL1 ;
+        LDR r0,=0X40000;  PIN P0.25 AS AD0.
+        STR r0,[r1]
+        LDR r1,=IO0DIR ;
+        LDR r0,=0X30FF0000
+        STR r0,[r1]
+UP1     LDR r1,=AD0CR ;
+        LDR r0,=0X00200410; To select operating mode for A/D conversion
+        STR r0,[r1]
+        LDR R2,=1
+        ORR R0,R2,LSL#24; TO START CONVERSION, SET 24TH BIT OF AD0CR
+        STR r0,[r1]
+UP      LDR R1,=AD0DR4
+        LDR R0,[R1]
+        AND R2,R0,#0X80000000
+        CMP R2,#0X80000000
+        BNE UP
+        MOV R0,R0,LSR#6
+        LDR R3,=0X3FF
+        AND R0,R0,R3 ; RETAIN LOWER 10 BITS
+        LDR R3,=310  ; FOR VOLTAGE L.T. 1 V
+        CMP R0,R3
+        BPL  NXT1
+        LDR R3,=0
+        B CODE
+NXT1    LDR R3,=621 ;FOR VOLTAGE L.T. 2 V
+        CMP R0,R3
+        BPL  NXT2
+        LDR R3,=0X10
+        B CODE
+NXT2    LDR R3,=931; FOR VOLTAGE L.T. 3 V
+        CMP R0,R3
+        BPL  NXT3
+        LDR R3,=0X20
+        B CODE
+NXT3    LDR R3,=1023;3.3V
+        CMP R0,R3
+        BPL  NXT4
+        LDR R3,=0X30
+        B CODE
+NXT4   LDR R3,=0X33
+CODE    LDR R1,=SEG_CODEL
+        AND R2,R3,#0X0F
+        LDRB R0, [R1,R2]
+        LDR R4,=0X20000000
+        MOV R0,R0,LSL#16  ; SHIFT TO FIT IN TO P0.16-P0.23
+        ORR R0,R0,R4
+        LDR R1,=IO0PIN
+        STR R0,[R1]
+        BL DELAY
+        LDR R1,=SEG_CODEU
+        AND R2,R3,#0XF0
+        MOV R2,R2,LSR#4
+        LDRB R0, [R1,R2]
+        LDR R4,=0X10000000
+        MOV R0,R0,LSL#16  ; SHIFT TO FIT IN TO P0.16-P0.23
+        ORR R0,R0,R4
+        LDR R1,=IO0PIN
+        STR R0,[R1]
+        BL DELAY
+        B UP1
+DELAY   ;subroutine
+        LDR R10,=0x2FF
+up1     SUBS R10,R10,#1;
+        BNE up1
+        BX LR
+SEG_CODEL DCB 0X3F,0X06,0X5B,0X4F
+SEG_CODEU DCB 0XBF,0X86,0XDB,0XCF
+        END
+
+
+================================================================
+EXP 8 : ASSEMBLY LANGUAGE PROGRAMMING FOR ARM 7 INTERRUPTS
+================================================================</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-36.png" alt="Original manual page 36"><figcaption>Original manual page 36</figcaption></figure></div></details>
+<p class="footer">Experiment 7: INTERFACING EXTERNAL DAC AND PROGRAMMING INTERNAL DAC AND ADC. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

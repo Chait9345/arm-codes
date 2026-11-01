@@ -1,58 +1,46 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to interface Seven Segment Display (Short Jumper JP2 (right two pins)) | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Interfacing Seven Segment LEDs and Hex Keypad</div><h1>Program to interface Seven Segment Display (Short Jumper JP2 (right two pins))</h1><p>Source manual page 31</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 6
-INTERFACING SEVEN SEGMENT LEDS AND HEX KEYPAD
-Aim: Assembly language programming to interface Seven segment LEDs and Hex
-keypad.
-1.Program to interface Seven Segment Display (Short Jumper JP2 (right two pins))
-03 ENTRY
-10 LDR r1,=IO0DIR ; load the address of the IODIR reg to Ri
-11 LDR r0,=OxFOFFOO0O0; pins P0.16 to P0.23 and P0.28-P0.31 as output pins
-12 STR rO, [ri] *This configure P0.16 to P0.23 as output pins
-13 LDR r2,=IO0SET ; load the address of the IOCLR reg to R2
-14 LDR r3,=IOOCLR + load the address of th
-15 Ss STR RO, [R3) ; Turn off display
-16 LDR R1,=OX803F0000 ; To display 0 on rightmost segment
-17 STR R1, [R2]
-18 BL DELAY
-19 STR RO, [R3] ¢ Turn off display
-20 LDR R1,=0X40060000;To display 1 on third segment
-a STR R1, [R2)
-2 BL DELAY
-3 STR RO, [R3] ¢ Turn off display
-24 LDR R1,=0X205B0000;To display 2 on second segment
-yc) STR R1, [R2]
-26 BL DELAY
-27 STR RO, [R3) ¢ Turn off display
-28 LDR R1,=0X104F0000;To display 3 on leftmost segment
-2 STR R1, [R2]
-30 BL DELAY
-3 Bs
-32. DELAY
-3 LDR r5, =Ox2FF ; Delay program to retain the bit for some time.
-34 delay SUBS r5, r5, #1
-ie) BNE delay
-i) BX LR
-P0.16__[G a a a
-PO.17. b a db a | b a | db 23
-P0.20 —| e e He | e
-P0.21 —{ + ee He e y e
-P0.28 P0.29 P0.30 P0.31
-Exercise:
-a. Write an ALP to display Characters of your choice (displayable) on Seven segment
-display.
-b. Write a program to display ring count on seven segment display unit (as if 4 bit ring)
-2. Program to interface hex keypad and seven segment display. Value of the key pressed
-displayed on the seven segment display
-01 INCLUDE VICVPB.S
-02 AREA key _7, CODE,READONLY
-03 EXPORT _main ;refer the line no 416 of startup.s file
-04 _ main
-05 ENTRY
-06 LDR ri,=IOODIR ; load the address of the IODIR reg to Ri
-07 LDR r0,=Oxi0FFO000; pins P0.i6 to P0.23 and P0.2@ as output pins
-08 STR rO, [ri] *This configure P0.i16 to P0.23 as output pins
-its) LDR ri,=IO1DIR ; load the address of the IODIR reg to RI
-10 LDR r0,=O0x0FO00000; configure pl.20-p1.23 as output(scan lines)pl.i6-p1.19 as input
-11 STR RO, [R1]
-31
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-31.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to interface DC motor (P0.8 and P0.11) | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 24 · Experiment 5</div>
+<h1>Program to interface DC motor (P0.8 and P0.11)</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+<p class="notice">The pasted source notes that lines 01–04 are absent in the manual. The common IO0DIR/IO0SET/IO0CLR definitions and AREA header are included as supplied in the pasted text.</p>
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>IO0DIR EQU 0xE0028008
+IO0SET EQU 0xE0028004
+IO0CLR EQU 0xE002800C
+ AREA CHANG, CODE,READONLY
+    EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+        LDR r1,=IO0DIR ; load the address of the IODIR reg to R1
+        LDR r0,=0x900; To set P0.8 AND P0.11 as output pins for the motor
+        STR r0,[r1]         ;This configure P0.8and P0.11 as output pins
+        LDR r2,=IO0CLR ; load the address of the IOCLR reg to R2
+        LDR r3,=IO0SET ; load the address of the IOSET reg to R3
+        ;LDR R5,=0X800 ; TO SWITCH DIRECTION
+        LDR R6,=0X100 ; TO TURN ON OR OFF THE MOTOR
+        STR R0,[R2] ; keep the motor off
+BACK    STR R6,[R3]    ;TURN ON MOTOR ANTICLOCKWISE DIRECTION
+        BL delay
+        STR R0,[R2]    ;TURN OFF MOTOR
+        BL delay
+        STR R0,[R3]; Motor to rotate clockwise
+        BL delay
+        STR R0,[R2] ;TURN OFF MOTOR
+        BL delay
+        B BACK
+delay   ;subroutine
+        LDR R4,=0x2FFFFF
+up      SUBS R4,R4,#1;
+        BNE up
+        BX LR
+        END
+
+================================================================
+EXP 6 : INTERFACING SEVEN SEGMENT LEDS AND HEX KEYPAD
+================================================================</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-29.png" alt="Original manual page 29"><figcaption>Original manual page 29</figcaption></figure></div></details>
+<p class="footer">Experiment 5: INTERFACING STEPPER MOTOR AND DC MOTOR. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

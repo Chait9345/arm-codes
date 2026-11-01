@@ -1,22 +1,34 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to find square of a decimal number (0 to 10) using lookup table | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Addressing Modes)</div><h1>Program to find square of a decimal number (0 to 10) using lookup table</h1><p>Source manual page 16</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-8.Program to find square of a decimal number (0 to 10) using lookup table
-01 AREA SQUARE , CODE, READONLY
-02 ENTRY ¢Mark first instruction to execute
-03 START
-04 LDR RO,=TABLE1 =; Load start address of Lookup table
-05 LDR R1i,=INP ¢ Initialize value at 0x40000000
-06 MOV R2,R1
-07 LDR Ri, [R1] ; Load no whose square is to be find
-os MOV R1,R1,LSL#0x2; Ri=Value at INPx4. to point at corresponding square
-0g ADD RO,RO,R1 ; Load address of element in Lookup table
-10 LDR R3, [RO] ¢ Get square of given no in R3
-11 STR R3, [R2,#4]!
-12 =S B s
-13. ;Lookup table contains Squares of nos from 0 to 10
-14 TABLE1 DCD 0,1,4,9,0x16,0x25,0x36,0x49,0x64,0x81,0x100;
-15 AREA DATA1, DATA, READWRITE
-16 INP DCD Oxo0045
-7 END ; Mark end of file
-OBSERVATIONS
-16
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-16.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to find square of a decimal number (0 to 10) using lookup table | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 8 · Experiment 1</div>
+<h1>Program to find square of a decimal number (0 to 10) using lookup table</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>    AREA  SQUARE , CODE, READONLY
+ENTRY                    ;Mark first instruction to execute
+START
+    LDR R0,=TABLE1       ; Load start address of Lookup table
+    LDR R1,=INP          ; Initialize value at 0x40000000
+    MOV R2,R1
+    LDR R1,[R1]          ; Load no whose square is to be find
+    MOV R1,R1,LSL#0x2    ; R1=Value at INPx4. to point at corresponding square
+    ADD R0,R0,R1         ; Load address of element in Lookup table
+    LDR R3, [R0]         ; Get square of given no in R3
+    STR R3,[R2,#4]!
+S   B   S
+;Lookup table contains Squares of nos from 0 to 10
+TABLE1  DCD 0,1,4,9,0x16,0x25,0x36,0x49,0x64,0x81,0x100;
+    AREA DATA1,DATA,READWRITE
+INP DCD 0X0045
+    END                  ; Mark end of file
+
+
+================================================================
+EXP 2 : INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE PROGRAMMING (DATA PROCESSING-I)
+================================================================</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-15.png" alt="Original manual page 15"><figcaption>Original manual page 15</figcaption></figure></div></details>
+<p class="footer">Experiment 1: INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE PROGRAMMING (ADDRESSING MODES). Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

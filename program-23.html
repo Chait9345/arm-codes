@@ -1,48 +1,35 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to rotate stepper motor anticlockwise (Full stepping with single coil energized at a time). It is full stepping (step angle 1.8o per step). Note: Short JP13 | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Interfacing Stepper Motor and DC Motor</div><h1>Program to rotate stepper motor anticlockwise (Full stepping with single coil energized at a time). It is full stepping (step angle 1.8o per step). Note: Short JP13</h1><p>Source manual page 29</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 5
-INTERFACING STEPPER MOTOR AND DC MOTOR
-Aim: Assembly language programming to interface Stepper and DC motors
-1. Program to rotate stepper motor anticlockwise (Full stepping with single coil energized
-at a time). It is full stepping (step angle 1.80 per step). Note: Short JP13
-O01 IOODIR EQU 0xE0028008 ;Address for configuring PortO as I/O
-O02 IOOSET EQU OxE0028004 ;Register address for setting PortO pins
-03 IOOCLR EQU OxE002800C -Register address for clearing PortO pins
-04 AREA CHANG, CODE, READONLY
-05 EXPORT main ;refer the line no 416 of startup.s file
-06 _ main
-07 ENTRY
-08 LDR ri,=IOODIR ; load the address of the IODIR reg to R1
-it) LDR r0,=OxFO00; To set P0.9 as output pin for buzzer
-10 STR rO, [ri] ¢This configure P0.12-P0.15 as output pins
-N LDR r2,=IOOCLR ; load the address of the IOCLR reg to R2
-12 LDR r3,=IO0SET ; load the address of the IOSET reg to R23
-13°58 LDR R5,=O0OX8000 ; Energise single coil at 42 time
-14 BACK STR RO, [R3] ¢ Set all 4 pins to 1 to turnoff motor
-15 STR RS, [R2] ; Clears one bit at a time to enable a coil(Active lov)
-16 LDR R4,=Ox2FFF; Keep varying this value for different speed
-17 delay SUBS R4,R4,#1;
-18 BNE delay
-19 MOV R5,R5,LSR #1; shift for energising next coil
-20 CMP R5,0X800 ; Are all coils energised?
-21 BNE BACK
-22 BS
-23 END
-Note:
-i. Full stepping can be achieved by energizing two adjacent coils at a time (step angle 1.8° per
-step).
-ii. Half stepping can be achieved by alternately energizing two coils at a time and then one coil
-at a time (step angle 0.9° per step)
-STEPPER 7
-MOTOR _
-3EYSW PM1
-De Ds Ds
-1N400&#x27; 1N400&#x27; 1N400 =
-5 PIN POWERMATE
-Pog AL_&gt;
-P0.10 CL__&gt;
-P0.11 O[-—&gt;
-Exercise:
-a. Write an alp to rotate the stepper motor clockwise to have step angle of 0.9° per step.
-b. Write an alp to rotate stepper motor anticlockwise for 180°.
-29
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-29.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to rotate stepper motor anticlockwise (Full stepping with single coil energized at a time, step angle 1.8 deg per step). Note: Short JP13 | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 23 · Experiment 5</div>
+<h1>Program to rotate stepper motor anticlockwise (Full stepping with single coil energized at a time, step angle 1.8 deg per step). Note: Short JP13</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>IO0DIR EQU 0xE0028008 ;Address for configuring Port0 as I/O
+IO0SET EQU 0xE0028004 ;Register address for setting Port0 pins
+IO0CLR EQU 0xE002800C ;Register address for clearing Port0 pins
+ AREA CHANG, CODE,READONLY
+    EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+        LDR r1,=IO0DIR ; load the address of the IODIR reg to R1
+        LDR r0,=0xF000; To set P0.9 as output pin for buzzer
+        STR r0,[r1]         ;This configure P0.12-P0.15 as output pins
+        LDR r2,=IO0CLR ; load the address of the IOCLR reg to R2
+        LDR r3,=IO0SET ; load the address of the IOSET reg to R3
+S       LDR R5,=0X8000 ; Energise single coil at a time
+BACK    STR R0,[R3]    ; Set all 4 pins to 1 to turnoff motor
+        STR R5,[R2]    ; Clears one bit at a time to enable a coil(Active low)
+        LDR R4,=0x2FFF; Keep varying this value for different speed
+delay   SUBS R4,R4,#1;
+        BNE delay
+        MOV R5,R5,LSR #1; shift for energising next coil
+        CMP R5,0X800    ; Are all coils energised?
+        BNE BACK
+        B S
+        END</code></pre></div>
+
+<p class="footer">Experiment 5: INTERFACING STEPPER MOTOR AND DC MOTOR. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

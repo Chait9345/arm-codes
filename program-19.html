@@ -1,52 +1,35 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to display ring count on (P0.16-P0.23 pins) LEDs (Active low ) | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · GPIO: LEDs, Switches, Buzzer and Relay</div><h1>Program to display ring count on (P0.16-P0.23 pins) LEDs (Active low )</h1><p>Source manual page 25</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 4
-ASSEMBLY LANGUAGE PROGRAMMING GPIOs TO INTERFACE
-LEDS, SWITCHES BUZZER AND RELAY
-Aim: To program general purpose input output pins of Arm7 to interface switches, LEDs
-and Buzzer
-1.Program to display ring count on (P0.16-P0.23 pins) LEDs (Active low )
-01 IOODIR EQU OxE0028008 ;Address for configuring PortO as I/O
-02 IOOSET EQU OxE0028004 ;Register address for setting Port0O pins
-03 IOOCLR EQU OxE002800C ;Register address for clearing PortO pins
-04 AREA CHANG, CODE, READONLY
-05 EXPORT _ main ;refer the line no 416 of startup.s file
-06 _ main
-07 ENTRY
-08 LDR r1,=IOODIR ; load the address of the IODIR reg to R1
-os LDR r0,=Ox00FFO000; To set pins P0.16 to P0.23 as output pins
-10 STR rO, [ri] sThis configure P0.16 to P0.23 as output pins
-11 LDR r2,=IOOCLR ; load the address of the IOCLR reg to R2
-12 LDR r3,=IOOSET ; load the address of the IOSET reg to R3
-13 repeat MOV r4, #0x00010000 ; write 4 control word to set one bit
-14 next STR r4, [r2]
-15 LDR r5, =Ox2FFFFF ; Delay program to retain the bit for some time.
-16 delay SUBS r5, r5, #1
-17 BNE delay
-18 STR rO, [r3] ; set all pins
-19 MOV r4, r4, LSL #1
-20 CMP r4, #0x1000000
-21 BNE next
-22 B repeat
-23 END
-Light Emitting Diodes (LED’s) are components most commonly used for displaying
-the port line status. There are 8 LEDs on the board; these lines are connected to the Port
-lines PO.16 (PBO) to PO.23 (PB7) through buffer.
-Rs3
-BPBO: a, aig
-BPB!
-Ly LED ik
-BPB2 . wa pets
-BPB3 =
-oe Rs7 JP2t
-BPB4 a &gt; _ 241 - -5v
-Rss JUMPER
-Bpes le LED
-s ©
-BPBS or, ae
-BPB7 te LED
-Exercise:
-a. Write an Assembly Language Program (ALP) to display 8-bit Johnson’s count.
-b. Write an ALP to display Mod-16 up count on LED circuit.
-c. Write an ALP to display 8-bit BCD up count on LED circuit.
-25
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-25.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to display ring count on (P0.16-P0.23 pins) LEDs (Active low) | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 19 · Experiment 4</div>
+<h1>Program to display ring count on (P0.16-P0.23 pins) LEDs (Active low)</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>IO0DIR EQU 0xE0028008 ;Address for configuring Port0 as I/O
+IO0SET EQU 0xE0028004 ;Register address for setting Port0 pins
+IO0CLR EQU 0xE002800C ;Register address for clearing Port0 pins
+    AREA CHANG, CODE,READONLY
+    EXPORT __main  ;refer the line no 416 of startup.s file
+__main
+    ENTRY
+        LDR r1,=IO0DIR ; load the address of the IODIR reg to R1
+        LDR r0,=0x00FF0000; To set pins P0.16 to P0.23 as output pins
+        STR r0,[r1]         ;This configure P0.16 to P0.23 as output pins
+        LDR r2,=IO0CLR ; load the address of the IOCLR reg to R2
+        LDR r3,=IO0SET ; load the address of the IOSET reg to R3
+repeat  MOV r4, #0x00010000 ; write a control word to set one bit
+next    STR r4, [r2]
+        LDR r5, =0x2FFFFF ; Delay program to retain the bit for some time.
+delay   SUBS r5, r5, #1
+        BNE delay
+        STR r0, [r3] ; set all pins
+        MOV r4, r4, LSL #1
+        CMP r4, #0x1000000
+        BNE next
+        B repeat
+        END</code></pre></div>
+
+<p class="footer">Experiment 4: ASSEMBLY LANGUAGE PROGRAMMING GPIOs TO INTERFACE LEDS, SWITCHES BUZZER AND RELAY. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

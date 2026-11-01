@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to generate duty cycle using PWM interrupt. This program generates 1 msec square wave. (Connect TP8 to CRO) | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 38 · Experiment 10</div>
+<h1>Program to generate duty cycle using PWM interrupt. This program generates 1 msec square wave. (Connect TP8 to CRO)</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>#include &lt;LPC21xx.h&gt;
+__irq void PWM_ISR (void)
+{           PWMIR = 0x100;  /* Clear PWM4 interrupt */
+    VICVectAddr = 0x00000000;
+}
+int main (void)
+{
+    VPBDIV      = 0x00000002;
+    PINSEL0 = 0x00020000 ;// configure p0.8
+    VICVectAddr0 = (unsigned) PWM_ISR; /* PWM ISR Address */
+    VICVectCntl0 = (0x00000020 | 8); /* Enable PWM IRQ slot */
+    VICIntEnable = VICIntEnable | 0x00000100; /* Enable PWM interrupt */
+//  VICIntSelect = VICIntSelect | 0x00000000; /* PWM configured as IRQ */
+// For PWM4 double edge
+    PWMTCR = 0x02;  /* Reset and disable counter for PWM */
+    PWMPR = 0x1D;   /* Prescale value for 1usec, Pclk=30MHz*/
+    /* Duty Cycle=(PWMMR4/PWMMR0)*100*/
+    PWMMR0 = 1000;  /* Time period of PWM wave, 1msec */
+    PWMMR4 = 100;   /* Value for duty cycle (10%) */
+    PWMMCR = 0x1003;/* Reset and interrupt on MR0 match, interrupt on MR4 match */
+    PWMLER = 0x0D;  /* Latch enable for PWM3, PWM2 and PWM0 */
+    PWMPCR = 0x1010;/* Enable PWM4 double edge controlled PWM on PWM4 */
+    PWMTCR = 0x09;  /* Enable PWM and counter */
+    while (1);
+}
+
+================================================================
+END
+================================================================</code></pre></div>
+
+<p class="footer">Experiment 10: ARM 7 C PROGRAMMING - II. Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

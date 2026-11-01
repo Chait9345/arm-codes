@@ -1,58 +1,39 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to add two 64 bit numbers | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program to add two 64 bit numbers</h1><p>Source manual page 21</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-2.Program to add two 16-bit numbers
-O01 ;/* PROGRAM TO ADD two 16-BIT NUMBERS &amp; STORE IN INTERNAL RAM */
-02 ;/* THE RESULT CAN BE VIEWED IN LOCATION 0X40000000 &amp; ALSO IN RO */
-03
-04 AREA ADDITION , CODE, READONLY
-05 ENTRY ¢Mark first instruction to execute
-06 START
-07 MOV RO, #0 ; INTIALISE SUM TO ZERO
-08 LDR R1, VALUE1 ; LOADS THE FIRST VALUE
-09 LDR R3,MASK ; MASK TO GET 16 BIT
-10 AND R1,R1,R3 ; MASK MSB
-&quot;1 ADD RO,RO,R1 ; ADD THE ELEMENTS
-12 LDR R2, VALUE2
-13 AND R2,R2,R3
-14 ADD RO,RO,R2
-15 LDR R4,=RESULT ; LOADS THE ADDRESS OF RESULT
-16 STR RO, [R4] ; STORES THE RESULT IN R1
-17 here b here
-18 MASK DCD OXOOOOFFFF ; MASK MSB
-19 VALUE1 DCW OXAAAA
-20 ALIGN
-21 VALUE2 DCW 0xX2222
-22
-23 AREA DATA2, DATA, READWRITE ; TO STORE RESULT IN GIVEN ADDRESS
-24 RESULT DCD 0x0, 0x0
-25
-26 END ; Mark end of file
-3. Program to add two 64 bit numbers
-01 ;/* PROGRAM TO ADD two 64-BIT NUMBERS &amp; STORE IN INTERNAL RAM */
-02 ;/* THE RESULT CAN BE VIEWED IN LOCATION 0X40000000 onward +/
-03 AREA ADDITION , CODE, READONLY
-04 ENTRY *Mark first instruction to execute
-05 START
-06 LDR RO, VALUE1+4 ; LOADS THE LEAST SIGNIFICANT PART OF FIRST VALUE
-07 LDR R2, VALUE2+4 ; LOADS THE LEAST SIGNIFICANT PART OF SECOND VALUE
-08 LDR R7, =RESULT ; LOADS THE ADDRESS OF RESULT STORAGE LOCATION
-09 ADD R7, R7, #8 ; ADJUST RESULT ADDRESS FOR LITTLE ENDIAN FORMAT
-10 ADDS R4, RO, R2 ; ADD THE LSB PART OF THE NUMBERS
-&quot;1 STR R4, [R7]} ; STORES THE RESULT IN MEMORY
-12 SUB R7, R7, #4 ; ADJUST RESULT ADDRESS FOR LITTLE ENDIAN FORMAT
-13 LDR Ri, VALUE1 ; LOADS THE MOST SIGNIFICANT PART OF FIRST VALUE
-14 LDR R3, VALUE2 ; LOADS THE MOST SIGNIFICANT PART OF SECOND VALUE
-15 ADCS R5, R1, R3 ; ADD THE MOST PART OF THE NUMBERS
-16 STR R5, [R7] ; STORES THE RESULT IN MEMORY
-17 SUB R7, R7, #4
-18 MOV R6, #0 ; STORING THE END AROUND CARRY, IF ANY
-19 ADC r6, r6, #0
-20 STR R6, [R7]
-21 here b here
-22 VALUE1 DCD OXFFA2E640, OxF2100123 =; NUMBER IS VALUE1 = OXFFA2E640F2100123
-23 VALUE2 DCD OXAA1019BF, 0x40023F51 ; NUMBER IS VALUE2 = OXFFA2E640F2100123
-24 AREA DATA2, DATA, READWRITE ; TO STORE RESULT IN GIVEN ADDRESS
-25 RESULT DCD 0X0, 0x0, 0x0
-26
-27 END ¢ Mark end of file
-21
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-21.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to add two 64 bit numbers | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 15 · Experiment 3</div>
+<h1>Program to add two 64 bit numbers</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
+
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>;/* PROGRAM TO ADD two 64-BIT NUMBERS &amp; STORE IN INTERNAL RAM        */
+;/* THE RESULT CAN BE VIEWED IN LOCATION 0X40000000 onward      */
+    AREA  ADDITION , CODE, READONLY
+ENTRY                  ;Mark first instruction to execute
+START
+    LDR R0, VALUE1+4    ; LOADS THE LEAST SIGNIFICANT PART OF FIRST VALUE
+    LDR R2, VALUE2+4    ; LOADS THE LEAST SIGNIFICANT PART OF SECOND VALUE
+    LDR R7, =RESULT     ; LOADS THE ADDRESS OF RESULT STORAGE LOCATION
+    ADD R7, R7, #8      ; ADJUST RESULT ADDRESS FOR LITTLE ENDIAN FORMAT
+    ADDS R4, R0, R2     ; ADD THE LSB PART OF THE NUMBERS
+    STR R4, [R7]        ; STORES THE RESULT IN MEMORY
+    SUB R7, R7, #4      ; ADJUST RESULT ADDRESS FOR LITTLE ENDIAN FORMAT
+    LDR R1, VALUE1      ; LOADS THE MOST SIGNIFICANT PART OF FIRST VALUE
+    LDR R3, VALUE2      ; LOADS THE MOST SIGNIFICANT PART OF SECOND VALUE
+    ADCS R5, R1, R3     ; ADD THE MOST PART OF THE NUMBERS
+    STR R5, [R7]        ; STORES THE RESULT IN MEMORY
+    SUB R7, R7, #4
+    MOV R6, #0      ; STORING THE END AROUND CARRY, IF ANY
+    ADC r6, r6, #0
+    STR R6, [R7]
+here b here
+VALUE1 DCD  0XFFA2E640, 0xF2100123   ; NUMBER IS VALUE1 = 0XFFA2E640F2100123
+VALUE2 DCD 0XAA1019BF, 0x40023F51    ; NUMBER IS VALUE2 = 0XFFA2E640F2100123
+    AREA DATA2,DATA,READWRITE    ; TO STORE RESULT IN GIVEN ADDRESS
+RESULT DCD 0X0, 0x0, 0x0
+
+    END           ; Mark end of file</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-20.png" alt="Original manual page 20"><figcaption>Original manual page 20</figcaption></figure></div></details>
+<p class="footer">Experiment 3: INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE PROGRAMMING (DATA PROCESSING-II). Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>

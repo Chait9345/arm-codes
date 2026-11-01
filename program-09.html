@@ -1,48 +1,20 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to check whether the number is even or odd. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-I)</div><h1>Program to check whether the number is even or odd.</h1><p>Source manual page 17</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
-Expt. No. 2
-INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE
-PROGRAMMING (DATA PROCESSING-I)
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program to check whether the number is even or odd | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · Program 9 · Experiment 2</div>
+<h1>Program to check whether the number is even or odd</h1><p>Selectable source code · printed line numbers removed</p></div></header>
+<main class="wrap"><a class="back" href="index.html">← All programs</a>
 
-Aim: To understand data processing
-1.Program to check whether the number is even or odd.
-
-1 AREA PROGRAM1, CODE, READONLY
-
-2 ENTRY
-
-3 MOV RO,#NUMBER ; READ NUMBER FROM MEMORY
-
-4 MOVS R1,RO,LSR #1 ;SHIFT LSB TO CARRY
-
-5 MOVCS R2,#OXFFFFFFFF; IF EVEN
-
-6 LDRCC R2,=0X55555555; ELSE opy
-
-7 5S BS
-
-8 END
-Note: Try with LSL, ASR, ROR and RRX
-2.Program to logical operations
-
-1 AREA PROGRAM1, CODE, READONLY
-
-2 ENTRY
-
-3 LDR RO,NUMBER1 ; READ NUMBER FROM MEMORY
-
-4 LDR R1,NUMBER2; READ NUMBER FROM MEMORY
-
-5 AND R2,RO,R1
-
-6 EOR R3,RO,R1
-
-7 ORR R4,RO,R1
-
-8s B Ss
-Exercise:
-Write a program to perform logical operations on two 48 bit numbers
-OBSERVATIONS
-
-17
-
-School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-17.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>
+<div class="panel"><div class="codebar"><p class="sub">Transcribed from the text you supplied. Original comments and source spellings are retained.</p>
+<button class="copy" type="button" onclick="copyCode()">Copy code</button></div>
+<pre id="source"><code>    AREA PROGRAM1, CODE, READONLY
+ENTRY
+    MOV R0,#NUMBER           ; READ NUMBER FROM MEMORY
+    MOVS R1,R0,LSR #1        ;SHIFT LSB TO CARRY
+    MOVCS R2,#0XFFFFFFFF     ; IF EVEN
+    LDRCC R2,=0X55555555     ; ELSE ODD
+S   B S
+    END</code></pre></div>
+<details class="reference"><summary>Original manual image(s)</summary><div class="images"><figure><img src="assets/page-16.png" alt="Original manual page 16"><figcaption>Original manual page 16</figcaption></figure></div></details>
+<p class="footer">Experiment 2: INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE PROGRAMMING (DATA PROCESSING-I). Check the original manual image where provided if you want to compare the source formatting.</p>
+</main><script>function copyCode(){const t=document.querySelector('#source code').innerText;navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.copy');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy code',1400)})}</script></body></html>
