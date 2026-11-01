@@ -1,1 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Programming internal DAC to generate a ramp waveform using internal DAC (10 bit). To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform by connecting Oscilloscope (CRO) probe to right side pin of JP9. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · External DAC, Internal DAC and ADC</div><h1>Programming internal DAC to generate a ramp waveform using internal DAC (10 bit). To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform by connecting Oscilloscope (CRO) probe to right side pin of JP9.</h1><p>Source manual page 34</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-34.png" alt="Manual page showing Programming internal DAC to generate a ramp waveform using internal DAC (10 bit). To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform by connecting Oscilloscope (CRO) probe to right side pin of JP9."></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Programming internal DAC to generate a ramp waveform using internal DAC (10 bit). To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform by connecting Oscilloscope (CRO) probe to right side pin of JP9. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · External DAC, Internal DAC and ADC</div><h1>Programming internal DAC to generate a ramp waveform using internal DAC (10 bit). To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform by connecting Oscilloscope (CRO) probe to right side pin of JP9.</h1><p>Source manual page 34</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+Expt. No. 7
+INTERFACING EXTERNAL DAC AND PROGRAMMING
+INTERNAL DAC AND ADC
+
+Aim: To interface external, 8-bit Digital to Analog Converter (DAC) and programming
+internal 10 bit, DAC and Analog to Digital Converter (ADC)
+1.Program to interface external DAC to generate a square waveform (Short JP3)
+01 INCLUDE VICVPB.S
+02 AREA CHANG, CODE, READONLY
+03 EXPORT main ;refer the line no 416 of startup.s file
+04 _ main
+05 ENTRY
+06 LDR ri,=IOODIR ; load the address of the IODIR reg to Rl
+07 LDR r0,=OxFFOO000; PO.0 to PO.7 as output
+08 STR r0, [r1] *This configure P0.0 to P0.7 as output pins
+09 LDR r2,=IOOCLR ; load the address of the IOCLR reg to R2
+10 LDR r3,=I00SET_ ;
+11 BACK STR RO, [R2]
+12 BL DELAY
+13 STR RO, [R3]
+14 BL DELAY
+15 B BACK
+16 DELAY ssubroutine
+17 LDR R5,=Ox2FFF
+18 up SUBS R5,R5, #1;
+19 BNE up
+20 BX LR
+21 END
+Exercise:
+
+a. Write an ALP to generate (i) Ramp wave (ii) Triangle wave (iii) Stair case wave of 10
+
+steps
+b. Write an ALP to generate sinewave [ Use the formula (1+sin®)*128, with 6 varying in
+steps of 150 , Maximum DAC input value is OxFF].
+2. Programming internal DAC to generate a ramp waveform using internal DAC (10 bit).
+To see waveform: Open JP9 (at ADC module) and Observe the Analog output waveform
+by connecting Oscilloscope (CRO) probe to right side pin of JP9.
+O01 PINSEL1 EQU OXE002C004; register to configure P0.16-P0.31 for specific operation
+02 DACR EQU OXE006C000; DAC register address
+03 AREA CHANG, CODE, READONLY
+04 EXPORT main ;refer the line no 416 of startup.s file
+05 — main
+06 ENTRY
+07 LDR RO,=PINSEL1;
+08 LDR R1,=DACR;
+0g LDR R2,=0X00080000; PO0.25 as DAC output
+10 STR R2, [RO]
+11 BACK MOV R4, R3,LSL#6
+12 STR R4, [R1]
+13 ADD R3,R3,#1
+14 B BACK
+15 END
+34
+
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-34.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

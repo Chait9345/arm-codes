@@ -1,1 +1,59 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to simulate subtraction | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program to simulate subtraction</h1><p>Source manual page 23</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-23.png" alt="Manual page showing Program to simulate subtraction"></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to simulate subtraction | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program to simulate subtraction</h1><p>Source manual page 23</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+5. Program to simulate subtraction
+1 ; trial of SUB, SBC, RSB instruction
+2 area Program, CODE, READONLY
+3 ENTRY
+4 Main
+5 LDRB Ril, x ; load a byte into rl
+6 LDRH 12, y ; load a word into r2
+7 LDR r4, =Result
+8 sub r3, rl, r2 ; normal subtraction, r3 = rl = r2
+9 strh r3, [r4] ; store half word result at location pointed by r4
+10 add r4, r4, #4
+11 rsb R3, Rl, r2 ; reverse subtract- r2 - rl = r3
+12 strh r3, [r4] ; store half word result at location pointed by r4
+13 add r4, r4, #4
+14 sbe r3, rl, r2 3; sbe r3 = rl-r2-!Carry
+15 strh r3, [r4] 3 store half word result at location pointed by r4
+16 add r4, r4, #4
+17. stop b stop
+18 x Dcw -Ox0001 ; Value to be tried
+as y Dcw -0x0001 ; Value to be tried
+a; try with same values of x and y and analyse results
+21
+22 AREA Examplel data, data, READWRITE
+23 ALIGN 7Need to do this because working with a series of 16-bit data
+24 Result DCW 0 ;Storage space
+25 END
+Exercise:
+a. Write a program to demonstrate reverse subtraction of two 16 bit numbers with carry
+6.Program to multiply two 32 bit numbers
+1 ;/* THE RESULT CAN BE VIEWED IN LOCATION 0xX40000000 &amp; ALSO IN RO
+2 AREA multiply , CODE, READONLY
+3 ENTRY ;Mark first instruction to execute
+4 START
+= LDR Rl, x ; LOADS THE FIRST VALUE
+6 LDR R2, y ; LOADS THE FIRST VALUE
+7 LDR R4,=RESULT ; LOADS THE ADDRESS OF RESULT
+8 mul RO, Rl, R2 ; Multiply the numbers
+9 STR RO, [R4] ; STORES THE RESULT IN RO
+10 umull RO, R3, Rl, R2 ; Multiply THE numbers
+11 add R4, R4, #4 ; LOADS THE ADDRESS OF RESULT
+12 STR RO, [R4] ; STORES THE RESULT IN RO
+13 add R4, R4, #4 ; LOADS THE ADDRESS OF RESULT
+14 STR R3, [R4] ; STORES THE RESULT IN R3
+15 smull RO, R3, Rl, R2 ; Multiply THE numbers
+16 add R4, R4, #4 ; LOADS THE ADDRESS OF RESULT
+17 STR RO, [R4] ; STORES THE RESULT IN RO
+18 add R4, R4, #4 ; LOADS THE ADDRESS OF RESULT
+19 STR R3, [R4] ; STORES THE RESULT IN R3
+20 here b here
+21 »x DCD -Oxl
+22 y DCD 0x2
+23 ; give different set of values for x and y and analyse the results
+24 AREA DATA2, DATA, READWRITE ; TO STORE RESULT IN GIVEN ADDRESS
+25 RESULT DCD 0x0
+26 END
+Exercise:
+23
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-23.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

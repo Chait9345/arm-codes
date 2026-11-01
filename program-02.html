@@ -1,1 +1,48 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to use EQU, and Access address/data from data / code Memory | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Addressing Modes)</div><h1>Program to use EQU, and Access address/data from data / code Memory</h1><p>Source manual page 12</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-12.png" alt="Manual page showing Program to use EQU, and Access address/data from data / code Memory"></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to use EQU, and Access address/data from data / code Memory | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Addressing Modes)</div><h1>Program to use EQU, and Access address/data from data / code Memory</h1><p>Source manual page 12</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+Expt. No. 1
+INTRODUCTION TO ARM7 ASSEMBLY LANGUAGE
+PROGRAMMING (ADDRESSING MODES)
+Aim: To understand basics of ARM7 programming and simulation
+1.To get familiar with ARM7 programming
+01 AREA PROGRAM1, CODE, READONLY; AREA CAN NOT START FROM FIRST COLUMN
+02 ENTRY
+03 MOV R1,#OXFFFFFFFF ; MOV IMMEDIATE DATA TO RO
+04 MOV RO, #8 257 ;MOV IMMEDIATE DATA TO R1
+05 MOV R2, #82 ;
+06 MOV R3,#2_1011101
+07 MOV R4,R1
+08 MOV R5,R2
+0g END
+Note: For the above program try following with immediate data:
+a. line3: OXffff, line4: 8_25765, line5:825 and conclude
+b. line3: 0x3E8, line4: 8_275, line5:16000 and conclude
+c. line3: 0xC000003F, line4: 8_275, line5:16000 and conclude
+d. Replace MOV instruction with MVN.
+2. Program to use EQU, and Access address/data from data / code Memory
+01 AD1 EQU OxAB
+02 NUM2 EQU 247
+03 NUM3 EQU ADi+1i
+04 AREA PROGRAM1, CODE, READONLY
+05 ENTRY
+06 MOV RO,#AD1_;?
+07 MOV R1,#NUM2 ;?
+08 MOV R2,#NUM3 ;?
+09 LDR RO,Q 7?
+10 LDR R1,=Q ;
+11 ADR R3,P 72
+12 LDR R5,=R 7?
+13 ;LDR R6,R
+14 «6s B s
+15 Q DCD OxAABBCCDD
+16 P DCD OxABCDEF78
+7
+18 AREA MEMORY, DATA, READWRITE ;?
+19 VALU DCD 0X11223344
+20 R DCD OXABBCCDDE
+21 T DCD 0xX11223344
+22
+23. RES SPACE 10 ; RESERVE 10 LOCATIONS
+24 end
+Note: For the above program try following:
+12
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-12.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

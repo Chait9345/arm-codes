@@ -1,1 +1,36 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to add array 16 bit unsigned array | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program to add array 16 bit unsigned array</h1><p>Source manual page 22</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-22.png" alt="Manual page showing Program to add array 16 bit unsigned array"></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to add array 16 bit unsigned array | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 Assembly Language Programming (Data Processing-II)</div><h1>Program to add array 16 bit unsigned array</h1><p>Source manual page 22</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+4. Program to add array 16 bit unsigned array
+Ol ; PROGRAM TO ADD an array of unsigned 16-BIT NUMBERS &amp; STORE IN INTERNAL RAM
+02 ; THE RESULT CAN BE VIEWED IN LOCATION 0X40000000 &amp; ALSO IN RO
+03 AREA ADDITION , CODE, READONLY
+04 ENTRY *Mark first instruction to execute
+05 START
+06 MOV RO, #0 ¢ INTIALISE SUM TO ZERO
+o7 mov r5, #10 ¢ number of half words to add
+08 LDR R6, =num_array ¢ points to the array
+09 next_element
+10 LDRH Ri, [r6] ¢ read the number from array into rl
+n
+12 ADD RO, RO, R1 ¢ ADD THE ELEMENTS
+13 add r6, r6, #2 ¢ update pointer for next element
+14 subs r5, r5, #1 ¢ reduce the count of number of elements in the array
+15 bne next_element
+16
+7 LDR R4, =RESULT ¢ LOADS THE ADDRESS OF RESULT
+18 STR RO, [R4] ¢ STORES THE RESULT IN R1
+19
+20 here b here
+a
+22 num_array DCW OX1111, OX2222, 0x3333, 0x4444, OxS555, 0Ox6666, OXAAAA, OXBBBB, OxCCCC, OXDDDD
+23
+24 AREA DATA2, DATA, READWRITE ¢ TO STORE RESULT IN GIVEN ADDRESS
+25 RESULT DCD OX0, 0x0
+26 END +; Mark end of file
+Exercise:
+
+a. Write a program add two four digit Binary Coded Decimal numbers.
+OBSERVATIONS
+
+22
+
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-22.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

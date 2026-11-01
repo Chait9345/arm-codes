@@ -1,1 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C-program to turn on or off the LED based on the external hardware interrupt1. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 C Programming – II</div><h1>C-program to turn on or off the LED based on the external hardware interrupt1.</h1><p>Source manual page 48</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-48.png" alt="Manual page showing C-program to turn on or off the LED based on the external hardware interrupt1."></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C-program to turn on or off the LED based on the external hardware interrupt1. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 C Programming – II</div><h1>C-program to turn on or off the LED based on the external hardware interrupt1.</h1><p>Source manual page 48</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+Expt. No. 10
+
+ARM 7 C PROGRAMMING - II
+Aim: To program ARM7 interrupts, and PWM in C programming language
+1. C-program to turn on or off the LED based on the external hardware interrupt1.
+Note: After programming press the switch, SW12 (Short JP12).
+Ol #include&lt;lpc214x.h&gt;
+02 void Extintl_Isr(void) __irg; //declaration of ISR
+03 unsigned char int_flag=i;
+04 unsigned long int c= 0X02000000;
+05 int main(void)
+06 { IO1DIR |=c; //P1.25 output
+07 IO1SET = c;
+08 PINSELO =0X000000c0; //P?0.3 EINT1
+og EXTMODE = 0x02; // falling egge trigger and active lov
+10 EXTPOLAR = 0X00;
+n viCVectAddrO = (unsigned long) Extinti_Isr; // EINTi ISR function name
+12 ViICVectCntl10O = 0x20 | 15;//EINT1 to interrupt priority 0
+13 VICIntEnable |= 0x00008000;//Enable the EINT1 interrupt
+14 while (i) //looping for interrupt
+15 {
+16 if(int_flag == 0x01)
+até IO1SET = 0x02000000;
+18 else
+19 IO1iCLR = 0X02000000;
+20 }
+2}
+22 void Extintl_Isr(void) irq //whenever there is a low edge on EINTO
+iz {
+24 EXTINT = 0x02; //clear the interrupt
+yaa)
+2a ViCVectAddr=0; //Acknowledge Interrupt
+7 int_flag =~int_flag :// complement the flag
+2}
+OBSERVATIONS
+
+48
+
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-48.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

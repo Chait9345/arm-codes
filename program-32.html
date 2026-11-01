@@ -1,1 +1,55 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to display up count with a delay of 1 second on LED display unit using Timer. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 C Programming – I</div><h1>Program to display up count with a delay of 1 second on LED display unit using Timer.</h1><p>Source manual page 44</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><div class="panel"><p class="sub">Original manual page, preserving the ARM code formatting.</p><img class="codeimg" src="assets/page-44.png" alt="Manual page showing Program to display up count with a delay of 1 second on LED display unit using Timer."></div><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Program to display up count with a delay of 1 second on LED display unit using Timer. | ARM Code Library</title><link rel="stylesheet" href="assets/style.css"></head><body><header class="top"><div class="wrap"><div class="eyebrow">ARM Code Library · ARM7 C Programming – I</div><h1>Program to display up count with a delay of 1 second on LED display unit using Timer.</h1><p>Source manual page 44</p></div></header><main class="wrap"><a class="back" href="index.html">← All programs</a><section class="panel"><div class="codehead"><div><h2>Copyable text transcription</h2><p class="sub">OCR-generated from the original manual page. Check register names, labels, constants and punctuation against the reference image before using.</p></div><button class="copy" type="button" onclick="copyCode(this)">Copy code</button></div><pre class="code"><code>Electronics and Computer Engineering Manipal Institute of Technology Bengaluru
+Expt. No. 9
+ARM 7 C PROGRAMMING - I
+Aim: To program ARM7 in C programming language
+1.Program to display up count with a delay of 1 second on LED display unit using Timer.
+O01 #include&lt;lpc21xx.hn&gt;
+02 void delay (void);
+03 int main(void)
+os {
+05 unsigned long int c=OxFFO000;
+06 iIOODIR = c;
+07 VPBDIV=2;
+08 TOMCR= (1&lt;&lt;0) | (1&lt;&lt;2); //Generates interrupt and reset on match
+09 TOMRO=1000000; //Loading match register value
+10 TOPR=29; //Loading Prescalar register value
+1
+12. += while(1)
+13 {
+14 IOOSET = c; // Turn ? LEDs
+15 delay();
+16 c-=0x10000;
+1? IOOCLR = OxfFO000; // Turn them ?
+18 }
+19 }
+20
+21 void delay (void)
+22 {
+23
+24 TOTCR= (1&lt;&lt;0); //Starting Timer
+2 while (! (TOIRG (1&lt;&lt;0)))+//Waiting for interrupt
+26 TOIR=(1&lt;&lt;0); //Clearing interrupt
+27 TOTCR=(1i&lt;&lt;1i); //Reset Timerd
+28 }
+Exercise:
+a) Write a program to generate (i) down count (ii) ring count (iii) Johnson’s count (iv)
+decimal count
+2.Program to read input from switches (P1.16-P1.23) and display corresponding LED of
+LED unit.
+O01 #include &lt;lpc214x.h&gt;
+02 int main(void)
+a3 unsigned long int c=0xFF0000;
+04 IOODIR = c; // Configure pins(?) on Port 0 as Output
+05 IOOSET=c;
+0s while (1)
+07 {  c=IO1PIN;
+08 IOOPIN = c; // Turn ? LEDs
+Lt} }
+10 }
+Exercise:
+a. Write a C program to interface with switches to perform following operations:
+If SW8 is pressed one LED, if SW7 is pressed display 2 LEDs, if SW6 is pressed display
+4 LEDs and, display 8 LEDs if SW5 is pressed.
+b. Write a C program to interface Buzzer
+44
+School of Electrical Engineering</code></pre></section><details class="reference"><summary>View original manual page (reference)</summary><img class="codeimg" src="assets/page-44.png" alt="Original manual page"></details><p class="footer">Source: Embedded Systems Lab manual, ECM_3143.</p></main><script>function copyCode(btn){const t=btn.closest(".panel").querySelector("pre code").innerText;navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy code",1400)}).catch(()=>{btn.textContent="Select text to copy"})}</script></body></html>

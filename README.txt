@@ -1,12 +1,5 @@
-ARM CODE LIBRARY
+ARM Code Library
 
-Preview: open index.html.
+Each program page now includes an OCR-generated, selectable text transcription with a Copy code button. The original manual page is retained below it for checking OCR-sensitive characters. Please verify register names, labels, hexadecimal constants and punctuation against the original before assembling/running the program. OCR can misread characters such as O/0, I/1, commas and semicolons.
 
-Publish free with GitHub Pages:
-1. Create a public GitHub repository named arm-codes.
-2. Upload all contents of this folder (index.html, program-*.html, assets/).
-3. Open repository Settings -> Pages.
-4. Choose Deploy from a branch, select main and /(root), then Save.
-5. GitHub will provide a public URL, usually https://YOUR-USERNAME.github.io/arm-codes/
-
-Each title opens a page showing the corresponding original manual page. The code is displayed as a page image to preserve the source formatting.
+Source: Embedded Systems Lab manual, ECM_3143.
